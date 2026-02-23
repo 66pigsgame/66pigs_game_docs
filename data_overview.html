@@ -448,7 +448,7 @@
             <!-- Error box -->
             <div id="export-error-box" class="alert" style="display: none;"></div>
 
-            <!-- Step 1: Email + Password -->
+            <!-- Step 1: Email only -->
             <div id="export-step1">
                 <div style="margin-bottom: 16px;">
                     <label for="export-email"
@@ -456,16 +456,9 @@
                     <input type="email" id="export-email" placeholder="your@email.com" autocomplete="email"
                         style="width: 100%; padding: 12px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; font-family: inherit;" />
                 </div>
-                <div style="margin-bottom: 16px;">
-                    <label for="export-password"
-                        style="display: block; font-weight: 600; margin-bottom: 6px;">Password</label>
-                    <input type="password" id="export-password" placeholder="Your password"
-                        autocomplete="current-password"
-                        style="width: 100%; padding: 12px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; font-family: inherit;" />
-                </div>
                 <button id="export-get-otp-btn" onclick="exportGetOtp()"
                     style="display: inline-block; padding: 12px 24px; background-color: #e67e22; color: white; border: none; border-radius: 25px; font-weight: bold; font-size: 15px; cursor: pointer; width: 100%; box-sizing: border-box; font-family: inherit;">
-                    Verify Identity
+                    Send Verification Code
                 </button>
             </div>
 
@@ -473,12 +466,12 @@
             <div id="export-otp-section"
                 style="display: none; margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
                 <div class="info">
-                    📧 A confirmation code has been sent to your email. It's valid for 10 minutes.
+                    📧 A verification code has been sent to your email. Check your inbox (and spam folder).
                 </div>
                 <div style="margin-bottom: 16px;">
-                    <label for="export-otp" style="display: block; font-weight: 600; margin-bottom: 6px;">Confirmation
+                    <label for="export-otp" style="display: block; font-weight: 600; margin-bottom: 6px;">Verification
                         Code</label>
-                    <input type="text" id="export-otp" placeholder="Enter code from email" maxlength="8"
+                    <input type="text" id="export-otp" placeholder="Enter 6-digit code from email" maxlength="6"
                         inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code"
                         style="width: 100%; padding: 12px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; font-family: inherit;" />
                 </div>
@@ -545,14 +538,14 @@
         function setExportLoading(loading) {
             const getOtpBtn = document.getElementById('export-get-otp-btn');
             const sendBtn = document.getElementById('export-send-btn');
-            const inputs = ['export-email', 'export-password', 'export-otp'].map(id => document.getElementById(id));
+            const inputs = ['export-email', 'export-otp'].map(id => document.getElementById(id));
 
             if (loading) {
-                if (getOtpBtn) { getOtpBtn.disabled = true; getOtpBtn.innerHTML = '<span style="display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.4);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle;margin-right:6px;"></span>Verifying…'; }
+                if (getOtpBtn) { getOtpBtn.disabled = true; getOtpBtn.innerHTML = '<span style="display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.4);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle;margin-right:6px;"></span>Sending…'; }
                 if (sendBtn) { sendBtn.disabled = true; sendBtn.innerHTML = '<span style="display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.4);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle;margin-right:6px;"></span>Sending…'; }
                 inputs.forEach(i => { if (i) i.disabled = true; });
             } else {
-                if (getOtpBtn) { getOtpBtn.disabled = false; getOtpBtn.textContent = 'Verify Identity'; }
+                if (getOtpBtn) { getOtpBtn.disabled = false; getOtpBtn.textContent = 'Send Verification Code'; }
                 if (sendBtn) { sendBtn.disabled = false; sendBtn.textContent = 'Send My Data to Email'; }
                 inputs.forEach(i => { if (i) i.disabled = false; });
             }
@@ -561,24 +554,22 @@
         async function exportGetOtp() {
             clearExportError();
             const email = document.getElementById('export-email').value.trim();
-            const password = document.getElementById('export-password').value;
 
-            if (!email || !password) {
-                showExportError('Please enter your email and password.');
+            if (!email) {
+                showExportError('Please enter your email address.');
                 return;
             }
 
             setExportLoading(true);
 
-            const { error: signInError } = await _supabase.auth.signInWithPassword({ email, password });
-            if (signInError) {
-                showExportError(signInError.message || 'Invalid email or password.');
-                return;
-            }
+            // Send a magic link OTP to the user's email
+            const { error } = await _supabase.auth.signInWithOtp({
+                email,
+                options: { shouldCreateUser: false }
+            });
 
-            const { error: reAuthError } = await _supabase.auth.reauthenticate();
-            if (reAuthError) {
-                showExportError(reAuthError.message || 'Failed to send verification code.');
+            if (error) {
+                showExportError(error.message || 'Failed to send verification code. Please check your email address.');
                 return;
             }
 
@@ -593,28 +584,25 @@
             const otp = document.getElementById('export-otp').value.trim();
 
             if (!otp || otp.length < 6) {
-                showExportError('Please enter the confirmation code from your email.');
+                showExportError('Please enter the 6-digit verification code from your email.');
                 return;
             }
 
             setExportLoading(true);
 
-            const { error: verifyError } = await _supabase.auth.verifyOtp({
+            // Verify the OTP — this creates a session automatically
+            const { data: { session }, error: verifyError } = await _supabase.auth.verifyOtp({
                 email,
                 token: otp,
-                type: 'reauthentication'
+                type: 'email'
             });
-            if (verifyError) {
+
+            if (verifyError || !session) {
                 showExportError('Invalid or expired code. Please try again.');
                 return;
             }
 
-            const { data: { session }, error: sessionError } = await _supabase.auth.getSession();
-            if (sessionError || !session) {
-                showExportError('Session expired. Please refresh and try again.');
-                return;
-            }
-
+            // Call the export edge function with the authenticated session
             let result;
             try {
                 const res = await fetch(`${SUPABASE_URL}/functions/v1/export-user-data`, {
