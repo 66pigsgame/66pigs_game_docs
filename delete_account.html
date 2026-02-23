@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Account - 66 Pigs</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #e67e22;
+            padding-bottom: 10px;
+            font-size: 2em;
+        }
+
+        h2 {
+            color: #e67e22;
+            margin-top: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            font-size: 1.5em;
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 20px;
+            font-size: 1.17em;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        ul, ol {
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+
+        .alert,
+        .feature-box,
+        .warning,
+        .info,
+        .response-time,
+        .section {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            line-height: 1.5;
+        }
+
+        /* Orange/Theme info boxes */
+        .info,
+        .feature-box,
+        .response-time {
+            background-color: #fff8f3;
+            color: #d35400;
+            border-left: 5px solid #e67e22;
+        }
+
+        /* Red warning boxes */
+        .warning,
+        .alert {
+            background-color: #fdf3f4;
+            color: #c0392b;
+            border-left: 5px solid #e74c3c;
+        }
+
+        /* Green success box */
+        .success-box {
+            background-color: #f0faf4;
+            color: #1e7e45;
+            border-left: 5px solid #27ae60;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            line-height: 1.5;
+        }
+
+        .caps {
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+
+        a {
+            color: #e67e22;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Form styles */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #e67e22;
+            box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.1);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 15px;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background-color 0.2s, opacity 0.2s;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .btn:hover {
+            text-decoration: none;
+        }
+
+        .btn-orange {
+            background-color: #e67e22;
+            color: white;
+            margin-top: 8px;
+        }
+
+        .btn-orange:hover {
+            background-color: #d35400;
+        }
+
+        .btn-red {
+            background-color: #e74c3c;
+            color: white;
+            margin-top: 8px;
+        }
+
+        .btn-red:hover {
+            background-color: #c0392b;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .form-card {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .otp-section {
+            display: none;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .otp-section.visible {
+            display: block;
+        }
+
+        .otp-hint {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        #error-box {
+            display: none;
+        }
+
+        #success-section {
+            display: none;
+        }
+
+        #form-section {
+            display: block;
+        }
+
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>66 Pigs — Account Deletion</h1>
+
+    <!-- What happens section -->
+    <div class="warning">
+        <h3>⚠️ What Happens When You Delete Your Account</h3>
+        <ul>
+            <li><strong>Your account becomes immediately inactive.</strong></li>
+            <li>You will be removed from all friends lists and active games.</li>
+            <li>All progress, Golden Pigs, Haystacks, and purchased items are permanently lost.</li>
+            <li>Your full data will be deleted from our servers within 30 days.</li>
+            <li><strong>This action cannot be undone.</strong></li>
+            <li>If you are currently in an active game, deletion will be blocked — please finish or leave the game first.</li>
+        </ul>
+    </div>
+
+    <!-- Form section -->
+    <div id="form-section">
+        <h2>Delete Your Account</h2>
+        <p>To confirm your identity, enter your email and password, then verify the one-time code sent to your inbox.</p>
+
+        <div class="form-card">
+            <!-- Error box -->
+            <div id="error-box" class="alert"></div>
+
+            <!-- Step 1: Email + Password -->
+            <div id="step1-section">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="your@email.com" autocomplete="email" />
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Your password" autocomplete="current-password" />
+                </div>
+                <button id="get-otp-btn" class="btn btn-orange" onclick="getOtp()">
+                    Get One-Time Code
+                </button>
+            </div>
+
+            <!-- Step 2: OTP + Final delete (shown after step 1 succeeds) -->
+            <div id="otp-section" class="otp-section">
+                <div class="info">
+                    📧 A 6-digit code has been sent to your email. It's valid for 10 minutes.
+                </div>
+                <div class="form-group">
+                    <label for="otp">Confirmation Code</label>
+                    <input type="text" id="otp" placeholder="123456" maxlength="6" inputmode="numeric"
+                        pattern="[0-9]*" autocomplete="one-time-code" />
+                </div>
+                <button id="delete-btn" class="btn btn-red" onclick="deleteAccount()">
+                    Delete My Account Forever
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success section (shown after deletion) -->
+    <div id="success-section">
+        <div class="success-box">
+            <h3>✅ Account Deletion Initiated</h3>
+            <p>Your 66 Pigs account has been successfully deleted. You will receive a confirmation email shortly.</p>
+            <p>All your data will be permanently removed from our servers within 30 days.</p>
+        </div>
+        <p>Thank you for playing 66 Pigs. We hope to see you again someday!</p>
+    </div>
+
+    <footer>
+        <a href="https://66pigsgame.github.io/66pigs_game_docs/privacy_policy.html">Privacy Policy</a>
+        &nbsp;·&nbsp;
+        <a href="https://66pigsgame.github.io/66pigs_game_docs/terms_of_service.html">Terms of Service</a>
+        &nbsp;·&nbsp;
+        <a href="https://66pigsgame.github.io/66pigs_game_docs/eula.html">EULA</a>
+        &nbsp;·&nbsp;
+        <a href="https://66pigsgame.github.io/66pigs_game_docs/support.html">Support</a>
+        &nbsp;·&nbsp;
+        <a href="https://66pigsgame.github.io/66pigs_game_docs/delete_account.html">Delete Account</a>
+    </footer>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://djjazbchujrgxevjfria.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqamF6YmNodWpyZ3hldmpmcmlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NTMyNzEsImV4cCI6MjA4MzQyOTI3MX0.aCKCEuFintrwFZY71q3TMDsWYZrwYl9zM9Fxa9tszQU';
+
+        const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        function showError(message) {
+            const box = document.getElementById('error-box');
+            box.style.display = 'block';
+            box.textContent = message;
+            setLoading(false);
+        }
+
+        function clearError() {
+            const box = document.getElementById('error-box');
+            box.style.display = 'none';
+            box.textContent = '';
+        }
+
+        function setLoading(loading) {
+            const getOtpBtn = document.getElementById('get-otp-btn');
+            const deleteBtn = document.getElementById('delete-btn');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const otpInput = document.getElementById('otp');
+
+            if (loading) {
+                if (getOtpBtn) {
+                    getOtpBtn.disabled = true;
+                    getOtpBtn.innerHTML = '<span class="spinner"></span>Sending code…';
+                }
+                if (deleteBtn) {
+                    deleteBtn.disabled = true;
+                    deleteBtn.innerHTML = '<span class="spinner"></span>Deleting…';
+                }
+                if (emailInput) emailInput.disabled = true;
+                if (passwordInput) passwordInput.disabled = true;
+                if (otpInput) otpInput.disabled = true;
+            } else {
+                if (getOtpBtn) {
+                    getOtpBtn.disabled = false;
+                    getOtpBtn.textContent = 'Get One-Time Code';
+                }
+                if (deleteBtn) {
+                    deleteBtn.disabled = false;
+                    deleteBtn.textContent = 'Delete My Account Forever';
+                }
+                if (emailInput) emailInput.disabled = false;
+                if (passwordInput) passwordInput.disabled = false;
+                if (otpInput) otpInput.disabled = false;
+            }
+        }
+
+        function showOtpField() {
+            document.getElementById('otp-section').classList.add('visible');
+            setLoading(false);
+            document.getElementById('otp').focus();
+        }
+
+        function showSuccess() {
+            document.getElementById('form-section').style.display = 'none';
+            document.getElementById('success-section').style.display = 'block';
+        }
+
+        async function getOtp() {
+            clearError();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                showError('Please enter your email and password.');
+                return;
+            }
+
+            setLoading(true);
+
+            // Step 1a: Sign in to verify credentials
+            const { error: signInError } = await _supabase.auth.signInWithPassword({ email, password });
+            if (signInError) {
+                showError(signInError.message || 'Invalid email or password. Please try again.');
+                return;
+            }
+
+            // Step 1b: Request reauthentication OTP
+            const { error: reAuthError } = await _supabase.auth.reauthenticate();
+            if (reAuthError) {
+                showError(reAuthError.message || 'Failed to send verification code. Please try again.');
+                return;
+            }
+
+            showOtpField();
+        }
+
+        async function deleteAccount() {
+            clearError();
+            const email = document.getElementById('email').value.trim();
+            const otp = document.getElementById('otp').value.trim();
+
+            if (!otp || otp.length !== 6) {
+                showError('Please enter the 6-digit code from your email.');
+                return;
+            }
+
+            setLoading(true);
+
+            // Step 2: Verify OTP
+            const { error: verifyError } = await _supabase.auth.verifyOtp({
+                email,
+                token: otp,
+                type: 'reauthentication'
+            });
+            if (verifyError) {
+                showError('Invalid or expired code. Please try again or request a new code.');
+                return;
+            }
+
+            // Step 3: Get current session JWT
+            const { data: { session }, error: sessionError } = await _supabase.auth.getSession();
+            if (sessionError || !session) {
+                showError('Session expired. Please refresh the page and try again.');
+                return;
+            }
+
+            // Step 4: Call Edge Function to send farewell email + delete account
+            let result;
+            try {
+                const res = await fetch(`${SUPABASE_URL}/functions/v1/delete-account`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${session.access_token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                result = await res.json();
+            } catch (fetchError) {
+                showError('Network error. Please check your connection and try again.');
+                return;
+            }
+
+            if (!result.success) {
+                // Map server error messages to user-friendly text
+                const serverMsg = result.message || '';
+                let userMsg = serverMsg;
+                if (serverMsg.toLowerCase().includes('active game')) {
+                    userMsg = "You're currently in an active game. Please finish or leave the game first, then try again.";
+                }
+                showError(userMsg || 'Deletion failed. Please try again or contact support.');
+                return;
+            }
+
+            showSuccess();
+        }
+    </script>
+</body>
+
+</html>
