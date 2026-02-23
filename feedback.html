@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback - 66 Pigs</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #1a0a00;
+            color: #f0d9c0;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .header {
+            text-align: center;
+            margin: 32px 0 24px;
+        }
+
+        .header .brand {
+            font-size: 32px;
+            font-weight: bold;
+            color: #FF6B35;
+            letter-spacing: 2px;
+            margin: 0 0 8px;
+        }
+
+        .header .subtitle {
+            font-size: 18px;
+            color: #c9a07a;
+            margin: 0;
+        }
+
+        .form-card {
+            background: #2a1400;
+            border: 1px solid #3d1e00;
+            border-radius: 16px;
+            padding: 28px 24px;
+            margin-bottom: 24px;
+        }
+
+        .alert {
+            display: none;
+            background-color: #3d0a00;
+            color: #ff6b6b;
+            border-left: 4px solid #e74c3c;
+            padding: 12px 14px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 7px;
+            color: #f0d9c0;
+            font-size: 15px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 14px;
+            background: #1a0a00;
+            border: 1px solid #4a2a10;
+            border-radius: 8px;
+            font-size: 15px;
+            color: #f0d9c0;
+            font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            resize: vertical;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #6a4020;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #FF6B35;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.15);
+        }
+
+        /* Star rating */
+        .stars-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 7px;
+            color: #f0d9c0;
+            font-size: 15px;
+        }
+
+        .stars {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 2px;
+        }
+
+        .stars span {
+            font-size: 36px;
+            color: #4a2a18;
+            cursor: pointer;
+            transition: color 0.15s, transform 0.1s;
+            line-height: 1;
+            user-select: none;
+        }
+
+        .stars span:hover,
+        .stars span.selected {
+            color: #FF6B35;
+        }
+
+        .stars span:active {
+            transform: scale(0.9);
+        }
+
+        .stars-hint {
+            font-size: 12px;
+            color: #6a4020;
+            margin-top: 4px;
+        }
+
+        /* Consent checkbox */
+        .consent-group {
+            margin-bottom: 18px;
+        }
+
+        .consent-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .consent-label input[type="checkbox"] {
+            display: none;
+        }
+
+        .consent-box {
+            flex-shrink: 0;
+            width: 22px;
+            height: 22px;
+            border: 2px solid #4a2a10;
+            border-radius: 6px;
+            background: #1a0a00;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color 0.2s, background 0.2s;
+            margin-top: 1px;
+        }
+
+        .consent-box .checkmark {
+            display: none;
+            color: white;
+            font-size: 14px;
+            line-height: 1;
+            font-weight: bold;
+        }
+
+        .consent-label input[type="checkbox"]:checked + .consent-box {
+            background: #FF6B35;
+            border-color: #FF6B35;
+        }
+
+        .consent-label input[type="checkbox"]:checked + .consent-box .checkmark {
+            display: block;
+        }
+
+        .consent-text {
+            font-size: 14px;
+            color: #c9a07a;
+            line-height: 1.5;
+        }
+
+        /* Email field wrapper — hidden by default */
+        #email-wrapper {
+            display: none;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px 24px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 16px;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background-color 0.2s, opacity 0.2s;
+            margin-top: 10px;
+        }
+
+        .btn-orange {
+            background-color: #FF6B35;
+            color: white;
+        }
+
+        .btn-orange:hover {
+            background-color: #e55a25;
+        }
+
+        .btn:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.35);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            vertical-align: middle;
+            margin-right: 7px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Success */
+        #success-section {
+            display: none;
+        }
+
+        .success-box {
+            background: #1a2a00;
+            color: #7acc50;
+            border-left: 4px solid #4a8020;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .success-box .icon {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .success-box h3 {
+            margin: 0 0 8px;
+            font-size: 20px;
+            color: #9aee60;
+        }
+
+        .success-box p {
+            margin: 0;
+            color: #7acc50;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 24px 0 20px;
+            text-align: center;
+            color: #6a4020;
+            font-size: 13px;
+        }
+
+        footer a {
+            color: #c97840;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #FF6B35;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <p class="brand">🐷 66 PIGS 🐷</p>
+            <p class="subtitle">Share Your Feedback</p>
+        </div>
+
+        <!-- Form section -->
+        <div id="form-section">
+            <div class="form-card">
+                <!-- Error box -->
+                <div id="error-box" class="alert"></div>
+
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" placeholder="Give your feedback a title" maxlength="100" />
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Your Feedback</label>
+                    <textarea id="message" rows="4" placeholder="Tell us what you think…"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <span class="stars-label">Star Rating</span>
+                    <div class="stars" id="stars">
+                        <span data-val="1">★</span>
+                        <span data-val="2">★</span>
+                        <span data-val="3">★</span>
+                        <span data-val="4">★</span>
+                        <span data-val="5">★</span>
+                    </div>
+                    <div class="stars-hint" id="stars-hint">Tap to rate</div>
+                </div>
+
+                <div class="consent-group">
+                    <label class="consent-label">
+                        <input type="checkbox" id="consent-checkbox" onchange="onConsentChange()" />
+                        <span class="consent-box"><span class="checkmark">✓</span></span>
+                        <span class="consent-text">I'm happy to be contacted by the founder of 66 Pigs via email</span>
+                    </label>
+                </div>
+
+                <div id="email-wrapper" class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="your@email.com" autocomplete="email" />
+                </div>
+
+                <button id="submit-btn" class="btn btn-orange" onclick="submitFeedback()">
+                    Send Feedback
+                </button>
+            </div>
+        </div>
+
+        <!-- Success section -->
+        <div id="success-section">
+            <div class="form-card">
+                <div class="success-box">
+                    <span class="icon">🙏</span>
+                    <h3>Thank you!</h3>
+                    <p>Your feedback has been received. We really appreciate you taking the time to share your thoughts.</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <a href="https://66pigsgame.github.io/66pigs_game_docs/privacy_policy.html">Privacy Policy</a>
+            &nbsp;·&nbsp;
+            <a href="https://66pigsgame.github.io/66pigs_game_docs/terms_of_service.html">Terms of Service</a>
+            &nbsp;·&nbsp;
+            <a href="https://66pigsgame.github.io/66pigs_game_docs/eula.html">EULA</a>
+            &nbsp;·&nbsp;
+            <a href="https://66pigsgame.github.io/66pigs_game_docs/support.html">Support</a>
+            &nbsp;·&nbsp;
+            <a href="https://66pigsgame.github.io/66pigs_game_docs/delete_account.html">Delete Account</a>
+            &nbsp;·&nbsp;
+            <a href="https://66pigsgame.github.io/66pigs_game_docs/data_overview.html">Your Data</a>
+            &nbsp;·&nbsp;
+            <a href="https://66pigsgame.github.io/66pigs_game_docs/feedback.html">Feedback</a>
+        </footer>
+    </div>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://djjazbchujrgxevjfria.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqamF6YmNodWpyZ3hldmpmcmlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NTMyNzEsImV4cCI6MjA4MzQyOTI3MX0.aCKCEuFintrwFZY71q3TMDsWYZrwYl9zM9Fxa9tszQU';
+
+        const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Star rating state
+        let selectedRating = 0;
+        const starLabels = ['Terrible', 'Bad', 'OK', 'Good', 'Excellent'];
+
+        const starsEl = document.getElementById('stars');
+        const starsHint = document.getElementById('stars-hint');
+
+        starsEl.querySelectorAll('span').forEach(star => {
+            star.addEventListener('click', () => {
+                selectedRating = parseInt(star.getAttribute('data-val'));
+                updateStars(selectedRating);
+            });
+            star.addEventListener('mouseenter', () => {
+                const hoverVal = parseInt(star.getAttribute('data-val'));
+                updateStars(hoverVal, true);
+            });
+        });
+
+        starsEl.addEventListener('mouseleave', () => {
+            updateStars(selectedRating);
+        });
+
+        function updateStars(value, isHover = false) {
+            starsEl.querySelectorAll('span').forEach(s => {
+                const v = parseInt(s.getAttribute('data-val'));
+                s.classList.toggle('selected', v <= value);
+            });
+            if (value > 0) {
+                starsHint.textContent = isHover ? starLabels[value - 1] : '★ ' + starLabels[value - 1];
+                starsHint.style.color = '#FF6B35';
+            } else {
+                starsHint.textContent = 'Tap to rate';
+                starsHint.style.color = '';
+            }
+        }
+
+        function onConsentChange() {
+            const checked = document.getElementById('consent-checkbox').checked;
+            const emailWrapper = document.getElementById('email-wrapper');
+            const emailInput = document.getElementById('email');
+            if (checked) {
+                emailWrapper.style.display = 'block';
+                emailInput.required = true;
+            } else {
+                emailWrapper.style.display = 'none';
+                emailInput.required = false;
+                emailInput.value = '';
+            }
+        }
+
+        function showError(message) {
+            const box = document.getElementById('error-box');
+            box.style.display = 'block';
+            box.textContent = message;
+        }
+
+        function clearError() {
+            const box = document.getElementById('error-box');
+            box.style.display = 'none';
+            box.textContent = '';
+        }
+
+        function setLoading(loading) {
+            const btn = document.getElementById('submit-btn');
+            const titleEl = document.getElementById('title');
+            const messageEl = document.getElementById('message');
+            const emailEl = document.getElementById('email');
+            const consentEl = document.getElementById('consent-checkbox');
+            if (loading) {
+                btn.disabled = true;
+                btn.innerHTML = '<span class="spinner"></span>Sending…';
+                titleEl.disabled = true;
+                messageEl.disabled = true;
+                emailEl.disabled = true;
+                consentEl.disabled = true;
+                starsEl.style.pointerEvents = 'none';
+            } else {
+                btn.disabled = false;
+                btn.textContent = 'Send Feedback';
+                titleEl.disabled = false;
+                messageEl.disabled = false;
+                emailEl.disabled = false;
+                consentEl.disabled = false;
+                starsEl.style.pointerEvents = '';
+            }
+        }
+
+        function showSuccess() {
+            document.getElementById('form-section').style.display = 'none';
+            document.getElementById('success-section').style.display = 'block';
+        }
+
+        async function submitFeedback() {
+            clearError();
+
+            const title = document.getElementById('title').value.trim();
+            const message = document.getElementById('message').value.trim();
+            const consentChecked = document.getElementById('consent-checkbox').checked;
+            const emailValue = document.getElementById('email').value.trim();
+
+            if (!title) {
+                showError('Please enter a title for your feedback.');
+                return;
+            }
+            if (!message) {
+                showError('Please write your feedback before submitting.');
+                return;
+            }
+            if (selectedRating === 0) {
+                showError('Please select a star rating.');
+                return;
+            }
+            if (consentChecked && !emailValue) {
+                showError('Please enter your email address, or uncheck the contact option.');
+                return;
+            }
+
+            setLoading(true);
+
+            const { error } = await _supabase
+                .from('support_tickets')
+                .insert({
+                    type: 'feedback',
+                    title: title,
+                    message: message,
+                    rating: selectedRating,
+                    email: consentChecked ? emailValue : null,
+                });
+
+            if (error) {
+                showError(error.message || 'Failed to submit feedback. Please try again.');
+                setLoading(false);
+                return;
+            }
+
+            showSuccess();
+        }
+    </script>
+</body>
+
+</html>

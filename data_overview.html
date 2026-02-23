@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Data — 66 Pigs</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #e67e22;
+            padding-bottom: 10px;
+            font-size: 2em;
+        }
+
+        h2 {
+            color: #e67e22;
+            margin-top: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            font-size: 1.5em;
+        }
+
+        h3 {
+            color: #555;
+            margin-top: 20px;
+            font-size: 1.17em;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        ul,
+        ol {
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+
+        .alert,
+        .feature-box,
+        .warning,
+        .info,
+        .response-time,
+        .section {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            line-height: 1.5;
+        }
+
+        .info,
+        .feature-box,
+        .response-time {
+            background-color: #fff8f3;
+            color: #d35400;
+            border-left: 5px solid #e67e22;
+        }
+
+        .warning,
+        .alert {
+            background-color: #fdf3f4;
+            color: #c0392b;
+            border-left: 5px solid #e74c3c;
+        }
+
+        .success-box {
+            background-color: #f0faf4;
+            color: #1e7e45;
+            border-left: 5px solid #27ae60;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            line-height: 1.5;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f8f9fa;
+        }
+
+        a {
+            color: #e67e22;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #e67e22;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: #d35400;
+            text-decoration: none;
+        }
+
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+        }
+
+        .phase-label {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .phase-immediate {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .phase-30day {
+            background-color: #e67e22;
+            color: white;
+        }
+
+        .phase-kept {
+            background-color: #2ecc71;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Your Data at 66 Pigs</h1>
+    <p><strong>Last Updated:</strong> February 23, 2026</p>
+
+    <div class="feature-box">
+        <h3>🔒 Our Data Promise</h3>
+        <ul>
+            <li><strong>NO ADS:</strong> We do not serve third-party advertisements.</li>
+            <li><strong>NO DATA SELLING:</strong> We never sell your personal information.</li>
+            <li><strong>NO TRACKING SDKs:</strong> We do not use any third-party analytics, crash reporting, or tracking
+                SDKs.</li>
+            <li><strong>MINIMAL COLLECTION:</strong> We only store what is required to provide the game.</li>
+        </ul>
+    </div>
+
+    <h2>1. Data We Collect</h2>
+    <p>Below is a comprehensive list of every category of data the game stores, why we store it, and how long we keep
+        it.</p>
+
+    <table>
+        <tr>
+            <th>Category</th>
+            <th>What We Store</th>
+            <th>Why</th>
+            <th>Legal Basis</th>
+            <th>Retention</th>
+        </tr>
+        <tr>
+            <td><strong>Account Identity</strong></td>
+            <td>Email address, hashed password, User ID (UUID)</td>
+            <td>Account creation, login, password recovery</td>
+            <td>Contract</td>
+            <td>Until account deletion + 30-day grace period</td>
+        </tr>
+        <tr>
+            <td><strong>Profile</strong></td>
+            <td>Username, avatar colour, equipped cosmetics</td>
+            <td>Display identity to other players</td>
+            <td>Contract</td>
+            <td>Until account deletion</td>
+        </tr>
+        <tr>
+            <td><strong>Game Statistics</strong></td>
+            <td>Games played, games won, Golden Pigs earned, Haystacks balance, level, win streaks</td>
+            <td>Track progress, leaderboards</td>
+            <td>Contract</td>
+            <td>Until account deletion</td>
+        </tr>
+        <tr>
+            <td><strong>Game History</strong></td>
+            <td>Game state (cards, scores, rows), game session timestamps</td>
+            <td>Enable gameplay and play-time tracking</td>
+            <td>Contract</td>
+            <td>Completed games: 7 days. Sessions: until account deletion.</td>
+        </tr>
+        <tr>
+            <td><strong>Social Connections</strong></td>
+            <td>Friends list, friend requests, blocked users</td>
+            <td>Multiplayer social features</td>
+            <td>Contract</td>
+            <td>Until account deletion</td>
+        </tr>
+        <tr>
+            <td><strong>Lobby &amp; Chat</strong></td>
+            <td>Lobby membership, chat messages (max 500 characters)</td>
+            <td>Multiplayer matchmaking and in-game communication</td>
+            <td>Contract</td>
+            <td>Lobbies: 24 hours after abandonment. Messages: 90 days.</td>
+        </tr>
+        <tr>
+            <td><strong>Inventory &amp; Shop</strong></td>
+            <td>Owned cosmetic items, equipped items, purchase history</td>
+            <td>Cosmetic shop and avatar customisation</td>
+            <td>Contract</td>
+            <td>Until account deletion</td>
+        </tr>
+        <tr>
+            <td><strong>Currency Transactions</strong></td>
+            <td>In-game currency changes (type, amount, before/after balance)</td>
+            <td>Game economy integrity and fraud prevention</td>
+            <td>Legitimate Interest</td>
+            <td>Until account deletion</td>
+        </tr>
+        <tr>
+            <td><strong>Challenge Progress</strong></td>
+            <td>Weekly and daily challenge progress, claims, completion status</td>
+            <td>Challenge feature functionality</td>
+            <td>Contract</td>
+            <td>Until account deletion</td>
+        </tr>
+        <tr>
+            <td><strong>Leaderboard Data</strong></td>
+            <td>Weekly stats (Golden Pigs, Haystacks earned, play time)</td>
+            <td>Weekly leaderboard rankings and rewards</td>
+            <td>Contract</td>
+            <td>Reset weekly. Reward history: until account deletion.</td>
+        </tr>
+        <tr>
+            <td><strong>Presence</strong></td>
+            <td>Online/offline status, last seen timestamp</td>
+            <td>Show friends who is online</td>
+            <td>Contract</td>
+            <td>Until account deletion</td>
+        </tr>
+        <tr>
+            <td><strong>Support Tickets</strong></td>
+            <td>Message content, email (if provided), ticket status</td>
+            <td>Respond to your support requests</td>
+            <td>Contract</td>
+            <td>Anonymised on account deletion. Content retained 90 days after resolution for quality assurance.</td>
+        </tr>
+        <tr>
+            <td><strong>User Reports</strong></td>
+            <td>Report reason, description</td>
+            <td>Community safety and moderation</td>
+            <td>Legitimate Interest</td>
+            <td>Report content retained (anonymised) for moderation. Identifying data removed on deletion.</td>
+        </tr>
+        <tr>
+            <td><strong>Feature Interest Signals</strong></td>
+            <td>Feature name, timestamp</td>
+            <td>Understand which features users want</td>
+            <td>Legitimate Interest</td>
+            <td>Until account deletion</td>
+        </tr>
+        <tr>
+            <td><strong>Device Data</strong></td>
+            <td>IP address (temporary, in auth session logs only), device type/OS (from user-agent)</td>
+            <td>Security, fraud prevention</td>
+            <td>Legitimate Interest</td>
+            <td>Session data handled by Supabase Auth. Not stored in custom tables.</td>
+        </tr>
+    </table>
+
+    <div class="info">
+        <strong>📝 Note:</strong> We do <strong>not</strong> collect location data, contacts, photos, microphone/camera
+        data, browsing history, or any health/financial information.
+    </div>
+
+    <h2>2. What Happens When You Delete Your Account</h2>
+    <p>You can delete your account at any time via <em>Settings &gt; Delete Account</em> in the app or through our <a
+            href="https://66pigsgame.github.io/66pigs_game_docs/delete_account.html">Delete Account</a> web page.</p>
+
+    <p>Deletion occurs in two phases:</p>
+
+    <h3><span class="phase-label phase-immediate">Phase 1</span> — Immediate (within seconds)</h3>
+    <p>The moment you confirm deletion:</p>
+    <ul>
+        <li>✅ Your account is <strong>deactivated</strong> — you can no longer log in.</li>
+        <li>✅ Your username is replaced with a randomised placeholder.</li>
+        <li>✅ You are <strong>removed from all friends lists</strong> of other players.</li>
+        <li>✅ All friend requests and lobby invites are deleted.</li>
+        <li>✅ Your blocked users list is deleted.</li>
+        <li>✅ Your online status and presence data are deleted.</li>
+        <li>✅ Your cosmetic inventory and equipped items are deleted.</li>
+        <li>✅ Your currency transaction history is deleted.</li>
+        <li>✅ All challenge progress (weekly and daily) is deleted.</li>
+        <li>✅ Your game sessions and lobby memberships are deleted.</li>
+        <li>✅ Your leaderboard reward history is deleted.</li>
+        <li>✅ Your lobby chat messages are deleted.</li>
+        <li>✅ Your feature interest signals are deleted.</li>
+        <li>✅ Your matchmaking queue entry is removed.</li>
+        <li>✅ Support tickets are <strong>anonymised</strong> (your email and user ID are removed, but the ticket
+            content is kept for quality assurance).</li>
+        <li>✅ User reports are <strong>anonymised</strong> (identifying data removed, report content kept for safety
+            purposes).</li>
+        <li>✅ A confirmation email is sent to your registered email address.</li>
+    </ul>
+
+    <h3><span class="phase-label phase-30day">Phase 2</span> — Within 30 Days</h3>
+    <p>After a 30-day grace period, the following are permanently and irreversibly removed:</p>
+    <ul>
+        <li>🗑️ Your <strong>email address</strong> and <strong>authentication credentials</strong> are hard-deleted
+            from
+            our servers.</li>
+        <li>🗑️ Your <strong>profile record</strong> is permanently removed from the database.</li>
+        <li>🗑️ All associated <strong>authentication sessions</strong> and <strong>tokens</strong> are purged.</li>
+        <li>🗑️ A deletion audit log entry is created (contains only a randomised user ID and timestamp — no personal
+            data).</li>
+    </ul>
+
+    <div class="warning">
+        <strong>⚠️ This action is permanent.</strong> Once the 30-day period has passed, no data can be recovered. We
+        are unable to restore deleted accounts.
+    </div>
+
+    <h2>3. Inactive Accounts</h2>
+    <p>To keep our systems clean and protect your data, accounts that have been <strong>inactive for 12 months or
+            more</strong> are automatically deactivated and follow the same deletion process described above (30-day
+        grace period for hard deletion).</p>
+
+    <p>We define "inactive" as no login, no game played, and no app activity for 12 consecutive months.</p>
+
+    <h2>4. Your Rights</h2>
+    <p>Under the GDPR (EU), CCPA (California), and similar privacy laws, you have rights regarding your personal
+        data:</p>
+
+    <table>
+        <tr>
+            <th>Right</th>
+            <th>What It Means</th>
+            <th>How to Exercise</th>
+        </tr>
+        <tr>
+            <td><strong>Access</strong></td>
+            <td>Get a copy of all data we hold about you in a machine-readable format.</td>
+            <td>Email <a href="mailto:66pigsgame@gmail.com">66pigsgame@gmail.com</a></td>
+        </tr>
+        <tr>
+            <td><strong>Correction</strong></td>
+            <td>Fix inaccurate information in your profile.</td>
+            <td>Change your username in the app, or email us for other corrections.</td>
+        </tr>
+        <tr>
+            <td><strong>Deletion</strong></td>
+            <td>"Right to be forgotten" — erase all your personal data.</td>
+            <td>In-app: <em>Settings &gt; Delete Account</em>, or email us.</td>
+        </tr>
+        <tr>
+            <td><strong>Portability</strong></td>
+            <td>Receive your data in a structured, machine-readable format (JSON).</td>
+            <td>Email <a href="mailto:66pigsgame@gmail.com">66pigsgame@gmail.com</a></td>
+        </tr>
+        <tr>
+            <td><strong>Restriction</strong></td>
+            <td>Ask us to limit how we use your data while a dispute is being resolved.</td>
+            <td>Email <a href="mailto:66pigsgame@gmail.com">66pigsgame@gmail.com</a></td>
+        </tr>
+        <tr>
+            <td><strong>Object</strong></td>
+            <td>Object to data processing based on legitimate interest.</td>
+            <td>Email <a href="mailto:66pigsgame@gmail.com">66pigsgame@gmail.com</a></td>
+        </tr>
+    </table>
+
+    <div class="response-time">
+        <strong>⏱️ Response Time:</strong> We will respond to any data subject request within <strong>30
+            days</strong>, as required by GDPR Article 12.
+    </div>
+
+    <h2>5. Data Processors</h2>
+    <p>We use the following trusted third-party services:</p>
+    <table>
+        <tr>
+            <th>Service</th>
+            <th>Purpose</th>
+            <th>Data Shared</th>
+            <th>Location</th>
+        </tr>
+        <tr>
+            <td><strong>Supabase</strong></td>
+            <td>Database, authentication, real-time</td>
+            <td>All game data (encrypted at rest and in transit)</td>
+            <td>EU (Ireland)</td>
+        </tr>
+        <tr>
+            <td><strong>Resend</strong></td>
+            <td>Transactional emails (password reset, account deletion confirmation)</td>
+            <td>Email address only</td>
+            <td>US (GDPR DPA available)</td>
+        </tr>
+        <tr>
+            <td><strong>Apple / Google</strong></td>
+            <td>App distribution, payment processing (if applicable)</td>
+            <td>Standard app store data</td>
+            <td>US (SCCs)</td>
+        </tr>
+    </table>
+    <p>We do <strong>not</strong> use any third-party analytics, crash reporting, advertising, or tracking services.</p>
+
+    <h2>6. Children's Privacy</h2>
+    <p>66 Pigs is not directed at children under 13 years of age. We do not knowingly collect personal data from
+        children under 13. If you believe a child under 13 has provided us with personal data, please contact us
+        immediately and we will delete it.</p>
+
+    <h2>7. Request a Copy of Your Data</h2>
+    <p>You can request a copy of all data we hold about you. The data will be compiled and sent to your registered email
+        address as an HTML report.</p>
+
+    <!-- Form section -->
+    <div id="export-form-section">
+        <div class="form-card"
+            style="background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 24px; margin: 20px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+
+            <!-- Error box -->
+            <div id="export-error-box" class="alert" style="display: none;"></div>
+
+            <!-- Step 1: Email + Password -->
+            <div id="export-step1">
+                <div style="margin-bottom: 16px;">
+                    <label for="export-email"
+                        style="display: block; font-weight: 600; margin-bottom: 6px;">Email</label>
+                    <input type="email" id="export-email" placeholder="your@email.com" autocomplete="email"
+                        style="width: 100%; padding: 12px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; font-family: inherit;" />
+                </div>
+                <div style="margin-bottom: 16px;">
+                    <label for="export-password"
+                        style="display: block; font-weight: 600; margin-bottom: 6px;">Password</label>
+                    <input type="password" id="export-password" placeholder="Your password"
+                        autocomplete="current-password"
+                        style="width: 100%; padding: 12px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; font-family: inherit;" />
+                </div>
+                <button id="export-get-otp-btn" onclick="exportGetOtp()"
+                    style="display: inline-block; padding: 12px 24px; background-color: #e67e22; color: white; border: none; border-radius: 25px; font-weight: bold; font-size: 15px; cursor: pointer; width: 100%; box-sizing: border-box; font-family: inherit;">
+                    Verify Identity
+                </button>
+            </div>
+
+            <!-- Step 2: OTP (shown after step 1 succeeds) -->
+            <div id="export-otp-section"
+                style="display: none; margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
+                <div class="info">
+                    📧 A confirmation code has been sent to your email. It's valid for 10 minutes.
+                </div>
+                <div style="margin-bottom: 16px;">
+                    <label for="export-otp" style="display: block; font-weight: 600; margin-bottom: 6px;">Confirmation
+                        Code</label>
+                    <input type="text" id="export-otp" placeholder="Enter code from email" maxlength="8"
+                        inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code"
+                        style="width: 100%; padding: 12px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; font-family: inherit;" />
+                </div>
+                <button id="export-send-btn" onclick="exportSendData()"
+                    style="display: inline-block; padding: 12px 24px; background-color: #27ae60; color: white; border: none; border-radius: 25px; font-weight: bold; font-size: 15px; cursor: pointer; width: 100%; box-sizing: border-box; font-family: inherit;">
+                    Send My Data to Email
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success section -->
+    <div id="export-success-section" style="display: none;">
+        <div class="success-box">
+            <h3>✅ Data Export Sent</h3>
+            <p>A detailed report of all your data has been sent to your email address. Please check your inbox (and spam
+                folder).</p>
+            <p>The report includes your profile, game history, inventory, challenge progress, and all other data we hold
+                about you.</p>
+        </div>
+    </div>
+
+    <h2>8. Contact</h2>
+    <p>For any questions about your data, or to exercise any of the rights listed above, contact us at:</p>
+    <p><strong>Email:</strong> <a href="mailto:66pigsgame@gmail.com">66pigsgame@gmail.com</a></p>
+
+    <footer>
+        <a href="https://66pigsgame.github.io/66pigs_game_docs/privacy_policy.html">Privacy Policy</a>
+        &nbsp;·&nbsp;
+        <a href="https://66pigsgame.github.io/66pigs_game_docs/terms_of_service.html">Terms of Service</a>
+        &nbsp;·&nbsp;
+        <a href="https://66pigsgame.github.io/66pigs_game_docs/eula.html">EULA</a>
+        &nbsp;·&nbsp;
+        <a href="https://66pigsgame.github.io/66pigs_game_docs/support.html">Support</a>
+        &nbsp;·&nbsp;
+        <a href="https://66pigsgame.github.io/66pigs_game_docs/delete_account.html">Delete Account</a>
+        &nbsp;·&nbsp;
+        <a href="https://66pigsgame.github.io/66pigs_game_docs/data_overview.html">Your Data</a>
+        &nbsp;·&nbsp;
+        <a href="https://66pigsgame.github.io/66pigs_game_docs/feedback.html">Feedback</a>
+    </footer>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://djjazbchujrgxevjfria.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqamF6YmNodWpyZ3hldmpmcmlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NTMyNzEsImV4cCI6MjA4MzQyOTI3MX0.aCKCEuFintrwFZY71q3TMDsWYZrwYl9zM9Fxa9tszQU';
+
+        const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        function showExportError(message) {
+            const box = document.getElementById('export-error-box');
+            box.style.display = 'block';
+            box.textContent = message;
+            setExportLoading(false);
+        }
+
+        function clearExportError() {
+            const box = document.getElementById('export-error-box');
+            box.style.display = 'none';
+            box.textContent = '';
+        }
+
+        function setExportLoading(loading) {
+            const getOtpBtn = document.getElementById('export-get-otp-btn');
+            const sendBtn = document.getElementById('export-send-btn');
+            const inputs = ['export-email', 'export-password', 'export-otp'].map(id => document.getElementById(id));
+
+            if (loading) {
+                if (getOtpBtn) { getOtpBtn.disabled = true; getOtpBtn.innerHTML = '<span style="display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.4);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle;margin-right:6px;"></span>Verifying…'; }
+                if (sendBtn) { sendBtn.disabled = true; sendBtn.innerHTML = '<span style="display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.4);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle;margin-right:6px;"></span>Sending…'; }
+                inputs.forEach(i => { if (i) i.disabled = true; });
+            } else {
+                if (getOtpBtn) { getOtpBtn.disabled = false; getOtpBtn.textContent = 'Verify Identity'; }
+                if (sendBtn) { sendBtn.disabled = false; sendBtn.textContent = 'Send My Data to Email'; }
+                inputs.forEach(i => { if (i) i.disabled = false; });
+            }
+        }
+
+        async function exportGetOtp() {
+            clearExportError();
+            const email = document.getElementById('export-email').value.trim();
+            const password = document.getElementById('export-password').value;
+
+            if (!email || !password) {
+                showExportError('Please enter your email and password.');
+                return;
+            }
+
+            setExportLoading(true);
+
+            const { error: signInError } = await _supabase.auth.signInWithPassword({ email, password });
+            if (signInError) {
+                showExportError(signInError.message || 'Invalid email or password.');
+                return;
+            }
+
+            const { error: reAuthError } = await _supabase.auth.reauthenticate();
+            if (reAuthError) {
+                showExportError(reAuthError.message || 'Failed to send verification code.');
+                return;
+            }
+
+            document.getElementById('export-otp-section').style.display = 'block';
+            setExportLoading(false);
+            document.getElementById('export-otp').focus();
+        }
+
+        async function exportSendData() {
+            clearExportError();
+            const email = document.getElementById('export-email').value.trim();
+            const otp = document.getElementById('export-otp').value.trim();
+
+            if (!otp || otp.length < 6) {
+                showExportError('Please enter the confirmation code from your email.');
+                return;
+            }
+
+            setExportLoading(true);
+
+            const { error: verifyError } = await _supabase.auth.verifyOtp({
+                email,
+                token: otp,
+                type: 'reauthentication'
+            });
+            if (verifyError) {
+                showExportError('Invalid or expired code. Please try again.');
+                return;
+            }
+
+            const { data: { session }, error: sessionError } = await _supabase.auth.getSession();
+            if (sessionError || !session) {
+                showExportError('Session expired. Please refresh and try again.');
+                return;
+            }
+
+            let result;
+            try {
+                const res = await fetch(`${SUPABASE_URL}/functions/v1/export-user-data`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${session.access_token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                result = await res.json();
+            } catch (fetchError) {
+                showExportError('Network error. Please check your connection.');
+                return;
+            }
+
+            if (!result.success) {
+                showExportError(result.message || 'Export failed. Please try again.');
+                return;
+            }
+
+            document.getElementById('export-form-section').style.display = 'none';
+            document.getElementById('export-success-section').style.display = 'block';
+        }
+    </script>
+    <style>
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</body>
+
+</html>
