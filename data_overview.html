@@ -594,7 +594,7 @@
             const { data: { session }, error: verifyError } = await _supabase.auth.verifyOtp({
                 email,
                 token: otp,
-                type: 'email'
+                type: 'magiclink'
             });
 
             if (verifyError || !session) {
