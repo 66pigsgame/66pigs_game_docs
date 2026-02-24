@@ -471,7 +471,7 @@
                 <div style="margin-bottom: 16px;">
                     <label for="export-otp" style="display: block; font-weight: 600; margin-bottom: 6px;">Verification
                         Code</label>
-                    <input type="text" id="export-otp" placeholder="Enter 6-digit code from email" maxlength="6"
+                    <input type="text" id="export-otp" placeholder="Enter code from email" maxlength="8"
                         inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code"
                         style="width: 100%; padding: 12px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; box-sizing: border-box; font-family: inherit;" />
                 </div>
@@ -584,7 +584,7 @@
             const otp = document.getElementById('export-otp').value.trim();
 
             if (!otp || otp.length < 6) {
-                showExportError('Please enter the 6-digit verification code from your email.');
+                showExportError('Please enter the verification code from your email.');
                 return;
             }
 
