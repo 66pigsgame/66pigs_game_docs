@@ -437,8 +437,8 @@
         immediately and we will delete it.</p>
 
     <h2>7. Request a Copy of Your Data</h2>
-    <p>You can request a copy of all data we hold about you. The data will be compiled and sent to your registered email
-        address as an HTML report.</p>
+    <p>You can request a copy of all data we hold about you. The data will be compiled into an HTML report that you can
+        download directly.</p>
 
     <!-- Form section -->
     <div id="export-form-section">
@@ -477,7 +477,7 @@
                 </div>
                 <button id="export-send-btn" onclick="exportSendData()"
                     style="display: inline-block; padding: 12px 24px; background-color: #27ae60; color: white; border: none; border-radius: 25px; font-weight: bold; font-size: 15px; cursor: pointer; width: 100%; box-sizing: border-box; font-family: inherit;">
-                    Send My Data to Email
+                    Download My Data
                 </button>
             </div>
         </div>
@@ -486,11 +486,11 @@
     <!-- Success section -->
     <div id="export-success-section" style="display: none;">
         <div class="success-box">
-            <h3>✅ Data Export Sent</h3>
-            <p>A detailed report of all your data has been sent to your email address. Please check your inbox (and spam
-                folder).</p>
-            <p>The report includes your profile, game history, inventory, challenge progress, and all other data we hold
-                about you.</p>
+            <h3>✅ Data Export Ready</h3>
+            <p>Your data report has been downloaded. The file includes your profile, game history, inventory, challenge
+                progress, and all other data we hold about you.</p>
+            <p>If the download didn't start automatically, <a href="#" id="export-download-again"
+                    onclick="downloadAgain(); return false;">click here to download again</a>.</p>
         </div>
     </div>
 
@@ -624,8 +624,30 @@
                 return;
             }
 
+            // Trigger download of the HTML report
+            window._lastExportHtml = result.html;
+            triggerDownload(result.html);
+
             document.getElementById('export-form-section').style.display = 'none';
             document.getElementById('export-success-section').style.display = 'block';
+        }
+
+        function triggerDownload(html) {
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = '66pigs_data_export.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function downloadAgain() {
+            if (window._lastExportHtml) {
+                triggerDownload(window._lastExportHtml);
+            }
         }
     </script>
     <style>
